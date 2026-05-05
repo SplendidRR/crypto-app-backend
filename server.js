@@ -6,6 +6,10 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const cryptoRoutes = require('./routes/cryptoRoutes');
+
 const app = express();
 
 app.use(express.json());
@@ -18,6 +22,10 @@ app.use(cors({
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error('MongoDB connection error:', err));
+
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/crypto', cryptoRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Crypto App API is running', status: 'OK' });
