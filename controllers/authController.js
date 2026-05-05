@@ -22,10 +22,15 @@ const register = async (req, res) => {
 
     res.status(201).json({ success: true, message: 'Registration successful', data: { userId: user._id, name: user.name, email: user.email }, token });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error registering user',    res.status(500).json({ success: false, in = async (req, res) => {
+    res.status(500).json({ success: false, message: 'Error registering user', error: error.message });
+  }
+};
+
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-                                            res.status(400).json({ success: false, message: 'Email and password required' });
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: 'Email and password required' });
     }
 
     const user = await User.findOne({ email });
@@ -39,13 +44,13 @@ const register = async (req, res) => {
     }
 
     const token = generateToken(user._id, user.email);
-                                                              a: { userId: user._id, name: user.name, email: user.email }, token });
+    res.json({ success: true, message: 'Login successful', data: { userId: user._id, name: user.name, email: user.email }, token });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error logging in', error: error.message });
   }
 };
 
-const logout =const logout =cons=> {
+const logout = async (req, res) => {
   res.json({ success: true, message: 'Logged out successfully' });
 };
 
